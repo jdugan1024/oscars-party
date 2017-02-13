@@ -1,0 +1,634 @@
+[
+    {
+        "category": "Best Picture", 
+        "nominees": [
+            {
+                "id": 1, 
+                "label": "Arrival"
+            }, 
+            {
+                "id": 2, 
+                "label": "Fences"
+            }, 
+            {
+                "id": 3, 
+                "label": "Hacksaw Ridge"
+            }, 
+            {
+                "id": 4, 
+                "label": "Hell or High Water"
+            }, 
+            {
+                "id": 5, 
+                "label": "Hidden Figures"
+            }, 
+            {
+                "id": 6, 
+                "label": "La La Land"
+            }, 
+            {
+                "id": 7, 
+                "label": "Lion"
+            }, 
+            {
+                "id": 8, 
+                "label": "Manchester by the Sea"
+            }, 
+            {
+                "id": 9, 
+                "label": "Moonlight"
+            }
+        ], 
+        "points": 10
+    }, 
+    {
+        "category": "Best Director", 
+        "nominees": [
+            {
+                "id": 1, 
+                "label": "Denis Villeneuve/Arrival"
+            }, 
+            {
+                "id": 2, 
+                "label": "Mel Gibson/Hacksaw Ridge"
+            }, 
+            {
+                "id": 3, 
+                "label": "Damien Chazelle/La La Land"
+            }, 
+            {
+                "id": 4, 
+                "label": "Manchester by the Sea/Kenneth Lonergan"
+            }, 
+            {
+                "id": 5, 
+                "label": "Barry Jenkins/Moonlight"
+            }
+        ], 
+        "points": 8
+    }, 
+    {
+        "category": "Lead Actor", 
+        "nominees": [
+            {
+                "id": 1, 
+                "label": "Casey Affleck/Manchester by the Sea"
+            }, 
+            {
+                "id": 2, 
+                "label": "Andrew Garfield/Hacksaw Ridge"
+            }, 
+            {
+                "id": 3, 
+                "label": "Ryan Gosling/La La Land"
+            }, 
+            {
+                "id": 4, 
+                "label": "Viggo Mortensen/Captain Fantastic"
+            }, 
+            {
+                "id": 5, 
+                "label": "Denzel Washington/Fences"
+            }
+        ], 
+        "points": 8
+    }, 
+    {
+        "category": "Lead Actress", 
+        "nominees": [
+            {
+                "id": 1, 
+                "label": "Isabelle Huppert/Elle"
+            }, 
+            {
+                "id": 2, 
+                "label": "Ruth Negga/Loving"
+            }, 
+            {
+                "id": 3, 
+                "label": "Natalie Portman/Jackie"
+            }, 
+            {
+                "id": 4, 
+                "label": "Emma Stone/La La Land"
+            }, 
+            {
+                "id": 5, 
+                "label": "Meryl Streep/Florence Foster Jenkins"
+            }
+        ], 
+        "points": 8
+    }, 
+    {
+        "category": "Supporting Actor", 
+        "nominees": [
+            {
+                "id": 1, 
+                "label": "Mahershala Ali/Moonlight"
+            }, 
+            {
+                "id": 2, 
+                "label": "Jeff Bridges/Hell or High Water"
+            }, 
+            {
+                "id": 3, 
+                "label": "Lucas Hedges,/Manchester by the Sea"
+            }, 
+            {
+                "id": 4, 
+                "label": "Dev Patel/Lion"
+            }, 
+            {
+                "id": 5, 
+                "label": "Michael Shannon/Nocturnal Animals"
+            }
+        ], 
+        "points": 6
+    }, 
+    {
+        "category": "Supporting Actress", 
+        "nominees": [
+            {
+                "id": 1, 
+                "label": "Viola Davis/Fences"
+            }, 
+            {
+                "id": 2, 
+                "label": "Naomie Harris/Moonlight"
+            }, 
+            {
+                "id": 3, 
+                "label": "Nicole Kidman/Lion"
+            }, 
+            {
+                "id": 4, 
+                "label": "Octavia Spencer/Hidden Figures"
+            }, 
+            {
+                "id": 5, 
+                "label": "Michelle Williams/Manchester by the Sea"
+            }
+        ], 
+        "points": 6
+    }, 
+    {
+        "category": "Original Screenplay", 
+        "nominees": [
+            {
+                "id": 1, 
+                "label": "Hell or High Water"
+            }, 
+            {
+                "id": 2, 
+                "label": "La La Land"
+            }, 
+            {
+                "id": 3, 
+                "label": "The Lobster"
+            }, 
+            {
+                "id": 4, 
+                "label": "Manchester by the Sea"
+            }, 
+            {
+                "id": 5, 
+                "label": "20th Century Women"
+            }
+        ], 
+        "points": 4
+    }, 
+    {
+        "category": "Adapted Screenplay", 
+        "nominees": [
+            {
+                "id": 1, 
+                "label": "Arrival"
+            }, 
+            {
+                "id": 2, 
+                "label": "Fences"
+            }, 
+            {
+                "id": 3, 
+                "label": "Hidden Figures"
+            }, 
+            {
+                "id": 4, 
+                "label": "Lion"
+            }, 
+            {
+                "id": 5, 
+                "label": "Moonlight"
+            }
+        ], 
+        "points": 4
+    }, 
+    {
+        "category": "Animated Feature", 
+        "nominees": [
+            {
+                "id": 1, 
+                "label": "Kubo and the Two Strings"
+            }, 
+            {
+                "id": 2, 
+                "label": "Moana"
+            }, 
+            {
+                "id": 3, 
+                "label": "My Life as a Zucchini"
+            }, 
+            {
+                "id": 4, 
+                "label": "The Red Turtle"
+            }, 
+            {
+                "id": 5, 
+                "label": "Zootopia"
+            }
+        ], 
+        "points": 4
+    }, 
+    {
+        "category": "Foreign Language Film", 
+        "nominees": [
+            {
+                "id": 1, 
+                "label": "Land of Mine (Denmark)"
+            }, 
+            {
+                "id": 2, 
+                "label": "A Man Called Ove (Sweden)"
+            }, 
+            {
+                "id": 3, 
+                "label": "The Salesman (Iran)"
+            }, 
+            {
+                "id": 4, 
+                "label": "Tanna (Australia)"
+            }, 
+            {
+                "id": 5, 
+                "label": "Toni Erdmann (Germany)"
+            }
+        ], 
+        "points": 4
+    }, 
+    {
+        "category": "Documentary", 
+        "nominees": [
+            {
+                "id": 1, 
+                "label": "Fire at Sea"
+            }, 
+            {
+                "id": 2, 
+                "label": "I Am Not Your Negro"
+            }, 
+            {
+                "id": 3, 
+                "label": "Life, Animated"
+            }, 
+            {
+                "id": 4, 
+                "label": "O.J.: Made in America"
+            }, 
+            {
+                "id": 5, 
+                "label": "13th"
+            }
+        ], 
+        "points": 4
+    }, 
+    {
+        "category": "Live Action Short", 
+        "nominees": [
+            {
+                "id": 1, 
+                "label": "Ennemis Int\u00e9rieurs"
+            }, 
+            {
+                "id": 2, 
+                "label": "La Femme et le TGV"
+            }, 
+            {
+                "id": 3, 
+                "label": "Silent Nights"
+            }, 
+            {
+                "id": 4, 
+                "label": "Sing"
+            }, 
+            {
+                "id": 5, 
+                "label": "Timecode"
+            }
+        ], 
+        "points": 2
+    }, 
+    {
+        "category": "Documentary Short", 
+        "nominees": [
+            {
+                "id": 1, 
+                "label": "Extremis"
+            }, 
+            {
+                "id": 2, 
+                "label": "4.1 Miles"
+            }, 
+            {
+                "id": 3, 
+                "label": "Joe\u2019s Violin"
+            }, 
+            {
+                "id": 4, 
+                "label": "Watani: My Homeland"
+            }, 
+            {
+                "id": 5, 
+                "label": "The White Helmets"
+            }
+        ], 
+        "points": 2
+    }, 
+    {
+        "category": "Animated Short", 
+        "nominees": [
+            {
+                "id": 1, 
+                "label": "Blind Vaysha"
+            }, 
+            {
+                "id": 2, 
+                "label": "Borrowed Time"
+            }, 
+            {
+                "id": 3, 
+                "label": "Pear Cider and Cigarettes"
+            }, 
+            {
+                "id": 4, 
+                "label": "Pearl"
+            }, 
+            {
+                "id": 5, 
+                "label": "Piper"
+            }
+        ], 
+        "points": 2
+    }, 
+    {
+        "category": "Cinematography", 
+        "nominees": [
+            {
+                "id": 1, 
+                "label": "Arrival"
+            }, 
+            {
+                "id": 2, 
+                "label": "La La Land"
+            }, 
+            {
+                "id": 3, 
+                "label": "Lion"
+            }, 
+            {
+                "id": 4, 
+                "label": "Moonlight"
+            }, 
+            {
+                "id": 5, 
+                "label": "Silence"
+            }
+        ], 
+        "points": 5
+    }, 
+    {
+        "category": "Film Editing", 
+        "nominees": [
+            {
+                "id": 1, 
+                "label": "Arrival"
+            }, 
+            {
+                "id": 2, 
+                "label": "Hacksaw Ridge"
+            }, 
+            {
+                "id": 3, 
+                "label": "Hell or High Water"
+            }, 
+            {
+                "id": 4, 
+                "label": "La La Land"
+            }, 
+            {
+                "id": 5, 
+                "label": "Moonlight"
+            }
+        ], 
+        "points": 2
+    }, 
+    {
+        "category": "Production Design", 
+        "nominees": [
+            {
+                "id": 1, 
+                "label": "Arrival"
+            }, 
+            {
+                "id": 2, 
+                "label": "Fantastic Beasts and Where to Find Them"
+            }, 
+            {
+                "id": 3, 
+                "label": "Hail, Caesar!"
+            }, 
+            {
+                "id": 4, 
+                "label": "La La Land"
+            }, 
+            {
+                "id": 5, 
+                "label": "Passengers"
+            }
+        ], 
+        "points": 3
+    }, 
+    {
+        "category": "Costume Design", 
+        "nominees": [
+            {
+                "id": 1, 
+                "label": "Allied"
+            }, 
+            {
+                "id": 2, 
+                "label": "Fantastic Beasts and Where to Find Them"
+            }, 
+            {
+                "id": 3, 
+                "label": "Florence Foster Jenkins"
+            }, 
+            {
+                "id": 4, 
+                "label": "Jackie"
+            }, 
+            {
+                "id": 5, 
+                "label": "La La Land"
+            }
+        ], 
+        "points": 3
+    }, 
+    {
+        "category": "Original Score", 
+        "nominees": [
+            {
+                "id": 1, 
+                "label": "Jackie"
+            }, 
+            {
+                "id": 2, 
+                "label": "La La Land"
+            }, 
+            {
+                "id": 3, 
+                "label": "Lion"
+            }, 
+            {
+                "id": 4, 
+                "label": "Moonlight"
+            }, 
+            {
+                "id": 5, 
+                "label": "Passengers"
+            }
+        ], 
+        "points": 4
+    }, 
+    {
+        "category": "Original Song", 
+        "nominees": [
+            {
+                "id": 1, 
+                "label": "\u201cAudition (The Fools Who Dream)\u201d by Justin Hurwitz/La La Land"
+            }, 
+            {
+                "id": 2, 
+                "label": "\"Can't Stop the Feeling\" by Justin Timberlake/Trolls"
+            }, 
+            {
+                "id": 3, 
+                "label": "\u201cCity of Stars\u201d by Justin Hurwitz/La La Land"
+            }, 
+            {
+                "id": 4, 
+                "label": "\"The Empty Chair\" by J. Ralph and Sting/Jim: The James Foley Story"
+            }, 
+            {
+                "id": 5, 
+                "label": "\"How Far I'll Go\" by Lin-Manuel Miranda/Moana"
+            }
+        ], 
+        "points": 4
+    }, 
+    {
+        "category": "Visual Effects", 
+        "nominees": [
+            {
+                "id": 1, 
+                "label": "Deepwater Horizon"
+            }, 
+            {
+                "id": 2, 
+                "label": "Doctor Strange"
+            }, 
+            {
+                "id": 3, 
+                "label": "The Jungle Book"
+            }, 
+            {
+                "id": 4, 
+                "label": "Kubo and the Two Strings"
+            }, 
+            {
+                "id": 5, 
+                "label": "Rogue One: A Star Wars Story"
+            }
+        ], 
+        "points": 3
+    }, 
+    {
+        "category": "Makeup and Hairstyling", 
+        "nominees": [
+            {
+                "id": 1, 
+                "label": "A Man Called Ove"
+            }, 
+            {
+                "id": 2, 
+                "label": "Star Trek Beyond"
+            }, 
+            {
+                "id": 3, 
+                "label": "Suicide Squad"
+            }
+        ], 
+        "points": 2
+    }, 
+    {
+        "category": "Sound Mixing", 
+        "nominees": [
+            {
+                "id": 1, 
+                "label": "Arrival"
+            }, 
+            {
+                "id": 2, 
+                "label": "Hacksaw Ridge"
+            }, 
+            {
+                "id": 3, 
+                "label": "La La Land"
+            }, 
+            {
+                "id": 4, 
+                "label": "Rogue One: A Star Wars Story"
+            }, 
+            {
+                "id": 5, 
+                "label": "13 Hours: The Secret Soldiers of Benghazi"
+            }
+        ], 
+        "points": 1
+    }, 
+    {
+        "category": "Sound Editing", 
+        "nominees": [
+            {
+                "id": 1, 
+                "label": "Arrival"
+            }, 
+            {
+                "id": 2, 
+                "label": "Deepwater Horizon"
+            }, 
+            {
+                "id": 3, 
+                "label": "Hacksaw Ridge"
+            }, 
+            {
+                "id": 4, 
+                "label": "La La Land"
+            }, 
+            {
+                "id": 5, 
+                "label": "Sully"
+            }
+        ], 
+        "points": 1
+    }
+]
