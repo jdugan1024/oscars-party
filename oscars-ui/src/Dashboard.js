@@ -3,8 +3,8 @@ import React, { Component } from "react";
 import moment from "moment-timezone";
 
 
-//const startTime = moment.tz("2017-02-26 17:30:00", "US/Pacific")
-const startTime = moment().add(15, "s");
+const startTime = moment.tz("2017-02-26 17:30:00", "US/Pacific")
+//const startTime = moment().add(15, "s");
 
 function pad(number) {
     return ("0" + number).slice(-2);
@@ -25,7 +25,7 @@ class CountdownDisplay extends Component {
 
 
         return (
-            <table style={{margin: "0 auto"}}>
+            <table style={{margin: "0 auto", background: "black" }}>
                 <tbody>
                     <tr style={{"fontSize": fontSize}}>
                         <td style={numberStyle}>{this.props.days}</td>
@@ -79,7 +79,7 @@ class Dashboard extends Component {
         const days = pad(Math.floor(howLong / (24*3600)));
         let remainder = howLong % (24*3600);
         const hours = pad(Math.floor(remainder / 3600));
-        remainder = remainder % 3600;
+        remainder %= 3600;
         const minutes = pad(Math.floor(remainder / 60));
         const seconds = pad(Math.round(remainder % 60));
 

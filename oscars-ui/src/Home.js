@@ -6,13 +6,8 @@ class Home extends Component {
     render() {
         return (
             <div>
-                <img src={oscarsImage} style={{width: "100%"}}/>
+                <img alt="[oscars]" src={oscarsImage} style={{width: "100%"}}/>
 
-                <div className="text-center">
-                    Want to play? <a href="/signup">Sign up here!</a>
-                    <br />
-                    <a href="/dashboard">Dashboard</a>
-                </div>
             </div>
         );
     }
