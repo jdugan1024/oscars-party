@@ -1,10 +1,7 @@
 import React, { Component } from "react";
-
 import moment from "moment-timezone";
 
-
-const startTime = moment.tz("2017-02-26 17:30:00", "US/Pacific")
-//const startTime = moment().add(15, "s");
+import { secondsRemaining } from  "./Time";
 
 function pad(number) {
     return ("0" + number).slice(-2);
@@ -75,7 +72,7 @@ class Dashboard extends Component {
     }
 
     calculateRemaining() {
-        var howLong = startTime.diff(moment()) / 1000;
+        var howLong = secondsRemaining();
         const days = pad(Math.floor(howLong / (24*3600)));
         let remainder = howLong % (24*3600);
         const hours = pad(Math.floor(remainder / 3600));
@@ -95,9 +92,9 @@ class Dashboard extends Component {
     renderCountdown() {
         return (
             <div>
-                <h2 className="text-center">
+                <h3 className="text-center">
                     The Academy Awards will start in:
-                </h2>
+                </h3>
                 <CountdownDisplay
                     days={this.state.days}
                     hours={this.state.hours}

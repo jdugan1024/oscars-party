@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import _ from "underscore";
 import { graphql, compose } from 'react-apollo';
-import gql from 'graphql-tag';
 import Immutable  from "immutable";
-
 
 import {
     Form,
@@ -15,6 +13,14 @@ import {
 } from "react-dynamic-forms";
 
 import FormRow from "./FormRow";
+import {
+    CategoryQuery,
+    CurrentPersonPredictionsQuery,
+
+    SetPredictionMutation,
+    SetTiebreakerMutation
+} from "./GraphQL";
+
 /*
  * CategoryList.propTypes = {
  *     data: PropTypes.shape({
@@ -56,7 +62,6 @@ class PredictionsForm extends Component {
 
         this.state = {
             editMode: FormEditStates.ALWAYS,
-            initialValueSet: false,
         }
     }
 
@@ -65,12 +70,25 @@ class PredictionsForm extends Component {
     }
 
     componentWillMount() {
+        this.setInitialValues(this.props.predictions);
     }
 
+    setInitialValues(predictions) {
+        let value = {};
+        _.each(predictions, (prediction) => {
+            value[prediction.categoryId] = prediction.nomineeId;
+        });
+
+        value = Immutable.fromJS(value);
+
+        this.setState({ value, initialValueSet: true });
+    }
+
+
     handleRandom() {
-        const categories = this.props.categories.allCategories.nodes;
         console.log("RANDO!", this.state.value);
         let value = this.state.value;
+        const categories = this.props.categories;
 
         if(!this.state.value.get("tiebreaker")) {
             const r = getRandomIntInclusive(0, 100);
@@ -115,35 +133,11 @@ class PredictionsForm extends Component {
         })
     }
 
-    setInitialValues(predictions) {
-        let value = {};
-        _.each(predictions.currentPersonPredictions.nodes, (prediction) => {
-            value[prediction.categoryId] = prediction.nomineeId;
-        });
-
-        value = Immutable.fromJS(value);
-
-        this.setState({ value, initialValueSet: true });
-    }
-
     render() {
-        let disableSubmit = true;
-        //const mode = this.props.mode;
-
-        if(this.props.categories.loading || this.props.predictions.loading) {
-            return (<div>Loading...</div>);
-        };
-
-        const categories = _.sortBy(
-            this.props.categories.allCategories.nodes,
+        const categories = _.sortBy(this.props.categories,
             (category) => category.points).reverse();
 
         const schema = buildSchema(categories);
-
-        if(!this.state.initialValueSet) {
-            this.setInitialValues(this.props.predictions);
-            return (<div>Loading...</div>);
-        }
 
         const awardItems = _.map(categories, (category) => {
             const points = category.points
@@ -161,20 +155,9 @@ class PredictionsForm extends Component {
             )
         });
 
-        if (this.state.editMode === FormEditStates.ALWAYS) {
-            if (this.state.hasErrors === false && this.state.hasMissing === false) {
-                disableSubmit = false;
-            }
-        }
-
-        const tiebreakerText = `How many time's will the name Trump be mentioned from the stage? Must say Trump. Closest without going over wins.`;
-        const tiebreakerStyle = {
-            marginTop: "2%",
-            marginBottom: "2%",
-            maxWidth: "350px"
-        };
-
-        console.log("STATE BEFORE FORM", this.state.value);
+        const tiebreakerText = `
+How many time's will the name Trump be mentioned from the stage?
+Must say Trump. Closest without going over wins.`;
         return (
             <Form
                 name="main"
@@ -218,105 +201,39 @@ class PredictionsForm extends Component {
                     <input className="btn btn-default btn-primary"
                            type="submit"
                            value="Submit Predictions"
-                           disabled={disableSubmit}
                            onClick={() => this.handleSubmit()} />
                 </FormRow>
             </Form>
         );
     }
 }
+const PredictionsFormWithMutations = compose(
+    graphql(SetPredictionMutation, { name: "setPrediction" }),
+    graphql(SetTiebreakerMutation, { name: "setTiebreaker" })
+)(PredictionsForm);
+
 
 class Predictions extends Component {
     render() {
-        console.log("******************  Predictions props", this.props);
+        if(this.props.categories.loading || this.props.predictions.loading) {
+            return (<div>Loading...</div>);
+        };
+
+        const categories = this.props.categories.allCategories.nodes;
+        const predictions = this.props.predictions.currentPersonPredictions.nodes;
+
         return (
             <div>
-                <h1>Your Predictions</h1>
-                <PredictionsFormWithData foobar={1}/>
+                <h3>Your Predictions</h3>
+                <PredictionsFormWithMutations
+                    categories={categories}
+                    predictions={predictions}
+                />
             </div>
         );
     }
 }
 
-const CategoryQuery = gql`
-query Categoryies {
-  allCategories {
-    nodes {
-      id,
-      nodeId,
-      name,
-      points,
-      nomineesByCategoryId {
-        nodes {
-          id
-          name
-        }
-      }
-    }
-  }
-}`;
-
-/*
-mutation UpdatePrediction {
-    updatePredictionByPersonId(input: {personId: 2, predictionPatch: {personId:2, categoryId: 1, nomineeId: 2}}) {
-        prediction {
-            personId
-            nomineeId
-            categoryId
-        }
-    }
-}
-*/
-
-const UpdatePredictionMutation = gql`
-mutation UpdatePrediction($predictionInput: UpdatePredictionByPersonIdAndCategoryIdInput!) {
-  updatePredictionByPersonIdAndCategoryId(input: $predictionInput) {
-    prediction {
-      nodeId
-      personId
-      nomineeId
-      categoryId
-    }
-  }
-}`;
-
-const SetPredictionMutation = gql`
-mutation SetPrediction($predictionInput: SetPredictionForPersonInput!) {
-  setPredictionForPerson(input: $predictionInput) {
-    prediction{
-      nodeId
-      personId
-      nomineeId
-      categoryId
-    }
-  }
-}`;
-
-const SetTiebreakerMutation = gql`
-mutation SetTiebreaker($tiebreakerInput: SetTiebreakerForPersonInput!) {
-  setTiebreakerForPerson(input: $tiebreakerInput){
-    person {
-      nodeId
-    }
-  }
-}
-`;
-
-const CurrentPersonPredictionsQuery = gql`
-query CurrentPersonPredictions {
-  currentPersonPredictions {
-    nodes {
-      categoryId,
-      nomineeId
-    }
-  }
-}`;
-
-const PredictionsFormWithData = compose(
-    graphql(CategoryQuery, { name: "categories" }),
-    graphql(CurrentPersonPredictionsQuery, { name: "predictions" }),
-    graphql(SetPredictionMutation, { name: "setPrediction" }),
-    graphql(SetTiebreakerMutation, { name: "setTiebreaker" })
-)(PredictionsForm);
-
-export default Predictions;
+export default compose(graphql(CategoryQuery, { name: "categories" }),
+                       graphql(CurrentPersonPredictionsQuery, { name: "predictions" }),
+)(Predictions);

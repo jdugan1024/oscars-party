@@ -80,7 +80,6 @@ class LoginForm extends Component {
     }
 
     render() {
-        const submitDisabled = this.state.hasErrors || this.state.hasMissing;
         if(window.localStorage.getItem("jwtToken")) {
             // XXX: force a reload -- the updateQueries maneouver above did no good
             const { pathname } = this.props.location.state ? this.props.location.state.from : { pathname: "/" };
@@ -115,7 +114,6 @@ class LoginForm extends Component {
             <input className="btn btn-default"
                    type="submit"
                    value="Login"
-                   disabled={submitDisabled}
                    onClick={() => this.handleSubmit()} />
             </FormRow>
             </Form>

@@ -42,9 +42,8 @@ networkInterface.use([{
         const token = localStorage.getItem("jwtToken");
 
         if(token) {
-            const jwt = jwtDecode(token);
-            console.log("JWT->", jwt);
-            if (jwt.exp < Date.now() / 1000) {
+            const tokenDetails = jwtDecode(token);
+            if (tokenDetails.exp < Date.now() / 1000) {
                 console.log("JWT expired. Clearing.");
                 window.localStorage.removeItem("jwtToken");
             } else {
@@ -128,11 +127,11 @@ class MainLayout extends Component {
         } else {
             links = (
                 <div>
-                    <Link to="/logout">Logout</Link>
-                    <br/>
                     <Link to="/predictions">My Predictions</Link>
                     <br/>
                     <Link to="/dashboard">Dashboard</Link>
+                    <br/>
+                    <Link to="/logout">Logout</Link>
                 </div>
             );
         }
