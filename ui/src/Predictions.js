@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import _ from "underscore";
 import { graphql, compose } from 'react-apollo';
 import Immutable  from "immutable";
+import { Chance } from "chance";
 
 import {
     Form,
@@ -29,12 +30,6 @@ import {
  *     }).isRequired,
  * };
  */
-
-function getRandomIntInclusive(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
 function buildSchema(categories, mode) {
     const categoryChoosers = _.map(categories, (category) => {
@@ -86,12 +81,12 @@ class PredictionsForm extends Component {
 
 
     handleRandom() {
-        console.log("RANDO!", this.state.value);
+        const chance = Chance();
         let value = this.state.value;
         const categories = this.props.categories;
 
         if(!this.state.value.get("tiebreaker")) {
-            const r = getRandomIntInclusive(0, 100);
+            const r = chance.integer({ min: 0, max: 100 });
             console.log("RR", r);
             value = value.set("tiebreaker", r.toString());
         }
@@ -101,8 +96,7 @@ class PredictionsForm extends Component {
             if(!value.get(fieldName)) {
                 const nominees = category.nomineesByCategoryId.nodes;
                 console.log("nom", nominees.length);
-                const randomIndex = getRandomIntInclusive(0, nominees.length-1);
-                const selection = nominees[randomIndex];
+                const selection = chance.pickone(nominees);
                 value = value.set(fieldName, selection.id);
             }
         });
