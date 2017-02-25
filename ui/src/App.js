@@ -81,10 +81,12 @@ class NoMatch extends Component {
 
 class MainLayout extends Component {
     render() {
-        const user = this.props.data.currentPerson;
-        const name = user ? this.props.data.currentPerson.name : "Guest";
+        const person = this.props.person;
+        const name = person ? person.name : "Guest";
+
+        console.log("PERSON", person, this.props);
         let links = null;
-        if (!user) {
+        if (!person) {
             links = (
                 <div>
                     Want to play?
@@ -127,13 +129,14 @@ class MainLayout extends Component {
                     <div className="col-sm-9 main">
                         <Switch>
                             <Route exact path="/" render={() => {
-                                    return (<Home user={user} />)}} />
+                                    return (<Home person={person} />)}} />
                             <Route path="/dashboard" component={Dashboard} />
                             <PrivateRoute path="/predictions" component={Predictions} />
                             <Route path="/signup" component={SignUp} />
                             <Route path="/login" component={Login} />
                             <Route path="/logout" render={() => {
-                                    window.localStorage.removeItem("jwtToken")
+                                    window.localStorage.removeItem("jwtToken");
+                                    this.props.personRefetch();
                                     return (<Redirect to="/"/>);
                                 }} />
                             <Route component={NoMatch} />
@@ -147,7 +150,11 @@ class MainLayout extends Component {
     }
 }
 
-const MainLayoutWithCurrentUser = graphql(CurrentUserQuery)(MainLayout)
+const MainLayoutWithCurrentUser = graphql(CurrentUserQuery, {
+    props: ({ ownProps, data: { loading, currentPerson, refetch } }) => ({
+        personLoading: loading, person: currentPerson, personRefetch: refetch})
+
+})(MainLayout);
 
 class App extends Component {
     render() {

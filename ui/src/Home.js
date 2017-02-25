@@ -7,7 +7,6 @@ class Home extends Component {
         return (
             <div>
                 <img alt="[oscars]" src={oscarsImage} style={{width: "100%"}}/>
-
             </div>
         );
     }
