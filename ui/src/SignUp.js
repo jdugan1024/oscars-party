@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Immutable  from "immutable";
 import { graphql } from "react-apollo";
-import gql from "graphql-tag";
 import _ from "underscore";
 
 import {
@@ -14,6 +13,8 @@ import {
 } from "react-dynamic-forms";
 
 import FormRow from "./FormRow";
+
+import { RegisterPersonMutation } from "./GraphQL";
 
 const SCHEMA = (
     <Schema>
@@ -153,16 +154,6 @@ class PersonForm extends Component {
     }
 
 }
-
-const RegisterPersonMutation = gql`
-mutation RegisterPerson($personInput: RegisterPersonInput!) {
-  registerPerson(input: $personInput) {
-    person {
-      id,
-      name
-    }
-  }
-}`;
 
 const PersonFormWithMutation = graphql(RegisterPersonMutation, { name: "registerPerson" })(PersonForm);
 

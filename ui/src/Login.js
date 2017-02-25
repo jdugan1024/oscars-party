@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import _ from "underscore";
 import Immutable  from "immutable";
 import { graphql, compose } from 'react-apollo';
-import gql from 'graphql-tag';
 
 import FormRow from "./FormRow";
 
@@ -14,6 +13,8 @@ import {
     TextEdit,
 } from "react-dynamic-forms";
 
+
+import { AuthenticateMutation } from "./GraphQL";
 
 const schema = (
     <Schema>
@@ -123,18 +124,8 @@ class LoginForm extends Component {
     }
 }
 
-const authenticationMutation = gql`mutation Authenticate($authInput: AuthenticateInput!) {
-  authenticate(input: $authInput) {
-    authenticateReply {
-      jwtToken
-      personId,
-      name
-    }
-  }
-}`;
-
 const Login = compose(
-    graphql(authenticationMutation, { name: "authenticate" })
+    graphql(AuthenticateMutation, { name: "authenticate" })
 )(LoginForm);
 /*
     props: ({ mutate }) => ({

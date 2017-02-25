@@ -1,5 +1,12 @@
 import gql from 'graphql-tag';
 
+export const CurrentUserQuery = gql`query CurrentPerson {
+  currentPerson {
+    id,
+    name
+  }
+}`;
+
 export const CategoryQuery = gql`
 query Categoryies {
   allCategories {
@@ -50,4 +57,25 @@ mutation SetTiebreaker($tiebreakerInput: SetTiebreakerForPersonInput!) {
   }
 }
 `;
+
+
+export const RegisterPersonMutation = gql`
+mutation RegisterPerson($personInput: RegisterPersonInput!) {
+  registerPerson(input: $personInput) {
+    person {
+      id,
+      name
+    }
+  }
+}`;
+
+export const AuthenticateMutation = gql`mutation Authenticate($authInput: AuthenticateInput!) {
+  authenticate(input: $authInput) {
+    authenticateReply {
+      jwtToken
+      personId,
+      name
+    }
+  }
+}`;
 

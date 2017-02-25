@@ -10,13 +10,6 @@ import {
 import ApolloClient, { createNetworkInterface } from "apollo-client";
 import { ApolloProvider } from 'react-apollo';
 import { graphql } from 'react-apollo';
-import gql from 'graphql-tag';
-
-import Home from "./Home";
-import Dashboard from "./Dashboard";
-import SignUp from "./SignUp";
-import Login from "./Login";
-import Predictions from "./Predictions";
 
 import Immutable from "immutable";
 import installDevTools from "immutable-devtools";
@@ -26,6 +19,14 @@ import jwtDecode from "jwt-decode";
 
 import oscarsIcon from "../public/oscars-icon.png";
 const networkInterface = createNetworkInterface({ uri: "/graphql" });
+
+import Home from "./Home";
+import Dashboard from "./Dashboard";
+import SignUp from "./SignUp";
+import Login from "./Login";
+import Predictions from "./Predictions";
+
+import { CurrentUserQuery } from "./GraphQL.js";
 
 function isAuthenticated() {
     return window.localStorage.getItem("jwtToken") != null;
@@ -44,7 +45,7 @@ networkInterface.use([{
         if(token) {
             const tokenDetails = jwtDecode(token);
             if (tokenDetails.exp < Date.now() / 1000) {
-                console.log("JWT expired. Clearing.");
+                // XXX notify user
                 window.localStorage.removeItem("jwtToken");
             } else {
                 req.options.headers.authorization = `Bearer ${token}`;
@@ -77,35 +78,6 @@ class NoMatch extends Component {
         );
     }
 }
-
-/*
-                <nav className="navbar navbar-default">
-                    <div className="container-fluid">
-                        <div className="navbar-header">
-                            <button type="button" className="navbar-toggle collapsed">
-                                <span className="sr-only">Toggle navigation</span>
-                                <span className="icon-bar"></span>
-                                <span className="icon-bar"></span>
-                                <span className="icon-bar"></span>
-                            </button>
-                            <a className="navbar-brand" href="/">
-                                <img alt="Oscars" src={oscarsIcon} height={20} />
-                            </a>
-                        </div>
-
-                        <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                            <ul className="nav navbar-nav">
-                                <li className="active"><a href="#">Predictions</a></li>
-                                <li><a href="/">Dashboard</a></li>
-                            </ul>
-                            <ul className="nav navbar-nav navbar-right">
-                                <li><a href="/logout/">Logout</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-
-*/
 
 class MainLayout extends Component {
     render() {
@@ -174,13 +146,6 @@ class MainLayout extends Component {
         )
     }
 }
-
-const CurrentUserQuery = gql`query CurrentPerson {
-  currentPerson {
-    id,
-    name
-  }
-}`;
 
 const MainLayoutWithCurrentUser = graphql(CurrentUserQuery)(MainLayout)
 
