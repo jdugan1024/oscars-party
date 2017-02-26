@@ -31,9 +31,9 @@ export const CurrentPersonPredictionsQuery = gql`
 query CurrentPersonPredictions {
   currentPersonPredictions {
     nodes {
-      nodeId,
       categoryId,
-      nomineeId
+      nomineeId,
+      personId
     }
   }
 }`;
@@ -42,7 +42,6 @@ export const SetPredictionMutation = gql`
 mutation SetPrediction($predictionInput: SetPredictionForPersonInput!) {
   setPredictionForPerson(input: $predictionInput) {
     prediction{
-      nodeId
       personId
       nomineeId
       categoryId

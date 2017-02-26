@@ -3,6 +3,7 @@ import _ from "underscore";
 import { graphql, compose } from 'react-apollo';
 import Immutable  from "immutable";
 import { Chance } from "chance";
+import { Redirect } from "react-router-dom";
 
 import {
     Form,
@@ -105,7 +106,6 @@ class PredictionsForm extends Component {
     }
 
     handleSubmit(e) {
-        console.log("handleSubmit", this.state.value.toJS());
         if (secondsRemaining() < -300) {
             console.log("too late to submit changes");
             return;
@@ -134,11 +134,8 @@ class PredictionsForm extends Component {
     }
 
     render() {
-        //
-        // XXX: this is a workaround to force the site to reload
-        //      and refetch data
         if (this.state.formSubmitted) {
-            window.location.pathname = "/dashboard";
+            return (<Redirect to="/"/>);
         }
 
         const categories = _.sortBy(this.props.categories,
@@ -232,10 +229,20 @@ class PredictionsForm extends Component {
     }
 }
 const PredictionsFormWithMutations = compose(
-    graphql(SetPredictionMutation, { name: "setPrediction" }),
+    graphql(SetPredictionMutation, {
+        props({ ownProps, mutate }) {
+            return {
+                setPrediction({ variables }) {
+                    return mutate({
+                        variables: variables,
+                        refetchQueries: [{ query: CurrentPersonPredictionsQuery }]
+                    })
+                }
+            }
+        }
+    }),
     graphql(SetTiebreakerMutation, { name: "setTiebreaker" })
 )(PredictionsForm);
-
 
 class Predictions extends Component {
     render() {

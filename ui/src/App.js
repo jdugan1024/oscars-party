@@ -56,7 +56,20 @@ networkInterface.use([{
   }
 }]);
 
-const client = new ApolloClient({ networkInterface });
+const client = new ApolloClient({
+    networkInterface,
+    dataIdFromObject: (result) => {
+        if (result.__typename && result.__typename === "Prediction") {
+            console.log("Prediction:", result);
+            return  "Prediction:" + result.categoryId + ":" + result.personId;
+        } else if (result.nodeId) {
+            return result.nodeId;
+        }
+
+        // Make sure to return null if this object doesn't have an ID
+        return null;
+    }
+});
 
 const PrivateRoute = ({ component, ...rest }) => (
   <Route {...rest} render={props => (
@@ -137,8 +150,11 @@ class MainLayout extends Component {
                             <Route path="/login" component={Login} />
                             <Route path="/logout" render={() => {
                                     window.localStorage.removeItem("jwtToken");
-                                    this.props.personRefetch();
-                                    return (<Redirect to="/"/>);
+                                    // destroy the cache since we're logging out
+                                    client.resetStore();
+                                    return (
+                                        <Link to="/"/>
+                                    );
                                 }} />
                             <Route component={NoMatch} />
                         </Switch>
