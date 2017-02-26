@@ -1,0 +1,9 @@
+#!/bin/sh
+
+postgraphql \
+  --connection postgres://oscars_postgraphql:xyz@localhost:5432/oscars \
+  --port 3001 \
+  --schema oscars \
+  --default-role oscars_anonymous \
+  --secret thirsty_keyboard_kitten \
+  --token oscars.jwt_token
