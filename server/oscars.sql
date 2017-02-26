@@ -246,13 +246,16 @@ declare
   person_id integer;
   person oscars.person;
 begin
-  update oscars.person set tiebreaker = tiebreaker where person_id = person_id returning * into person;
+  person_id := current_setting('jwt.claims.person_id', true)::integer;
+
+  update oscars.person set tiebreaker = tiebreaker
+  where person_id = person_id returning * into person;
 
   return person;
 end;
 $$ language plpgsql strict;
 
-comment on function oscars.set_tiebreaker_for_person(integer) is 'Sets tiebreaker fro current person.';
+comment on function oscars.set_tiebreaker_for_person(integer) is 'Sets tiebreaker for current person.';
 
 grant usage on schema oscars to oscars_anonymous, oscars_person;
 
