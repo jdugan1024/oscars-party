@@ -22,6 +22,8 @@ import {
     SetTiebreakerMutation
 } from "./GraphQL";
 
+import { secondsRemaining } from "./Time";
+
 /*
  * CategoryList.propTypes = {
  *     data: PropTypes.shape({
@@ -55,8 +57,15 @@ class PredictionsForm extends Component {
     }
 
     componentWillMount() {
+        let editMode;
+        if (secondsRemaining() >= -300) {
+            editMode = FormEditStates.NEVER;
+        } else {
+            editMode = FormEditStates.NEVER;
+        }
+
         this.state = {
-            editMode: FormEditStates.ALWAYS,
+            editMode: editMode,
             value: this.initialValues(this.props.tiebreaker, this.props.predictions)
         };
     }
@@ -145,44 +154,66 @@ class PredictionsForm extends Component {
             </div>
         );
 
+        let editable = (<div></div>);
+        if (this.state.editMode === FormEditStates.ALWAYS) {
+            editable = (
+                <div>
+                    <h4>Randomize Predictions</h4>
+                    <p style={{ width: "350px" }}>
+                        Use the randomize predictions button to randomly select choices for
+                        any selections you haven't made yet. For the truly lazy.
+                    </p>
+                    <input className="btn btn-warning btn-xs"
+                           type="submit"
+                           value="Randomize Predictions"
+                           onClick={() => this.handleRandom()} />
+                    <hr/>
+                    <input className="btn btn-default btn-primary"
+                           type="submit"
+                           value="Submit Predictions"
+                           onClick={() => this.handleSubmit()} />
+                </div>
+            );
+        }
+
+        let editMessage = (<p></p>);
+        if (this.state.editMode === FormEditStates.NEVER) {
+            editMessage = (
+                <h4>
+                    The show has started. You can no longer change your predictions.
+                </h4>
+            );
+        }
+
         return (
-            <Form
-                name="main"
-                schema={schema}
-                edit={this.state.editMode}
-                value={this.state.value}
-                groupLayout={FormGroupLayout.COLUMN}
-                onChange={(fieldName, value) => {
-                        console.log("*** CHG VALUYE", value);
-                        this.setState({ value })
-                    }}
-                onSubmit={this.handleSubmit}
-                onMissingCountChange={(fieldName, missing) =>
-                    this.setState({ hasMissing: missing > 0 })}
-                onErrorCountChange={(fieldName, errors) =>
-                    this.setState({ hasErrors: errors > 0 })} >
+            <div>
+                {editMessage}
+                <Form
+                    name="main"
+                    schema={schema}
+                    edit={this.state.editMode}
+                    value={this.state.value}
+                    groupLayout={FormGroupLayout.COLUMN}
+                    onChange={(fieldName, value) => {
+                            console.log("*** CHG VALUYE", value);
+                            this.setState({ value })
+                        }}
+                    onSubmit={this.handleSubmit}
+                    onMissingCountChange={(fieldName, missing) =>
+                        this.setState({ hasMissing: missing > 0 })}
+                    onErrorCountChange={(fieldName, errors) =>
+                        this.setState({ hasErrors: errors > 0 })} >
 
-                {awardItems}
+                    {awardItems}
 
-                <h4>Tiebreaker</h4>
-                <TextEdit field="tiebreaker" width={50} />
-                {tiebreakerText}
+                    <h4>Tiebreaker</h4>
+                    <TextEdit field="tiebreaker" width={50} />
+                    {tiebreakerText}
 
-                <h4>Randomize Predictions</h4>
-                <p style={{ width: "350px" }}>
-                    Use the randomize predictions button to randomly select choices for
-                    any selections you haven't made yet. For the truly lazy.
-                </p>
-                <input className="btn btn-warning btn-xs"
-                       type="submit"
-                       value="Randomize Predictions"
-                       onClick={() => this.handleRandom()} />
-                <hr/>
-                <input className="btn btn-default btn-primary"
-                       type="submit"
-                       value="Submit Predictions"
-                       onClick={() => this.handleSubmit()} />
-            </Form>
+                    {editable}
+
+                </Form>
+            </div>
         );
     }
 }
