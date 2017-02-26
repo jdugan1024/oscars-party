@@ -105,6 +105,11 @@ class PredictionsForm extends Component {
 
     handleSubmit(e) {
         console.log("handleSubmit", this.state.value.toJS());
+        if (secondsRemaining() < -300) {
+            console.log("too late to submit changes");
+            return;
+        }
+
         this.state.value.forEach((nomineeId, categoryId) => {
             if(categoryId === "tiebreaker") {
                 this.props.setTiebreaker({
