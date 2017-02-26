@@ -8,6 +8,7 @@ import FormRow from "./FormRow";
 import {
     Form,
     FormEditStates,
+    FormGroupLayout,
     Schema,
     Field,
     TextEdit,
@@ -99,6 +100,7 @@ class LoginForm extends Component {
             <Form
                 name="main"
                 schema={schema}
+                groupLayout={FormGroupLayout.COLUMN}
                 edit={FormEditStates.ALWAYS}
                 value={this.state.value}
                 onChange={(fieldName, value) => {
@@ -110,14 +112,14 @@ class LoginForm extends Component {
                 onErrorCountChange={(fieldName, errors) =>
                     this.setState({ hasErrors: errors > 0 })} >
                 <TextEdit field="email" width={300} />
-            <TextEdit field="password"  type="password" width={300} />
-            <FormRow>
-            <input className="btn btn-default"
-                   type="submit"
-                   value="Login"
-                   onClick={() => this.handleSubmit()} />
-            </FormRow>
+                <TextEdit field="password"  type="password" width={300} />
+                <br/>
+                <input className="btn btn-default"
+                       type="submit"
+                       value="Login"
+                       onClick={() => this.handleSubmit()} />
             </Form>
+            <hr/>
             {loginFailed}
             </div>
         );

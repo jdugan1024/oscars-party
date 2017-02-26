@@ -7,6 +7,7 @@ import _ from "underscore";
 import {
     Form,
     FormEditStates,
+    FormGroupLayout,
     Schema,
     Field,
     TextEdit,
@@ -25,7 +26,7 @@ const SCHEMA = (
     </Schema>
 );
 
-const duplicateEmailRegex = /duplicate key.*email_key/
+const duplicateEmailRegex = /duplicate key.*email_key/;
 
 class PersonForm extends Component {
     constructor(props, context) {
@@ -46,6 +47,15 @@ class PersonForm extends Component {
 
     handleSubmit() {
         console.log("handleSubmit", this.state.value.toJS());
+        const password1 = this.state.value.get("password1");
+        const password2 = this.state.value.get("password2");
+        const passwordsMatch = password1 && password2 && password1 === password2;
+
+        if (this.state.hasMissing || this.state.hasErrors || !passwordsMatch) {
+            console.log("errors not submitting");
+            return;
+        }
+
         const personInput = {
             name: this.state.value.get("name"),
             email: this.state.value.get("email"),
@@ -60,7 +70,7 @@ class PersonForm extends Component {
                 }
             })
             .catch((err) => {
-                console.error('Logout failed', err);
+                console.log("signup failed", err.message);
                 if (err.message.match(duplicateEmailRegex)) {
                     this.setState({ profileError: "Can't create profile: email is already in use." });
                 } else {
@@ -73,11 +83,6 @@ class PersonForm extends Component {
         const password1 = this.state.value.get("password1");
         const password2 = this.state.value.get("password2");
         const passwordsMatch = password1 && password2 && password1 === password2;
-        console.log("PW", password1, password2, passwordsMatch);
-        let disableSubmit = true;
-        if (!this.state.hasMissing && !this.state.hasErrors && passwordsMatch) {
-            disableSubmit = false;
-        }
 
         let passwordWarning = (<div></div>);
         if (password1 && password2 && !passwordsMatch) {
@@ -88,10 +93,12 @@ class PersonForm extends Component {
             );
         }
 
-        let profileErrorMessage = null;
+        // XXX(bug): this doesn't seem to actually set things correctly
+        //           i think the error isn't getting caught properly
+        let profileErrorMessage = (<div key="foobar"></div>);
         if (this.state.profileError) {
             profileErrorMessage = (
-                <div style={{ color: "red" }}>
+                <div key={this.state.profileError} style={{ color: "red" }}>
                     {this.state.profileError}
                 </div>
             );
@@ -99,10 +106,11 @@ class PersonForm extends Component {
 
         return (
             <div>
-                <h1>Sign Up</h1>
+                <h3>Sign Up</h3>
                 <Form
                     name="person"
                     schema={SCHEMA}
+                    groupLayout={FormGroupLayout.COLUMN}
                     edit={this.state.editMode}
                     value={this.state.value}
                     onChange={(fieldName, value) => { this.setState({ value }) }}
@@ -112,22 +120,15 @@ class PersonForm extends Component {
                     <TextEdit field="email" width={200} />
                     <TextEdit field="password1" type="password" width={200} />
                     <TextEdit field="password2" type="password" width={200} />
-                    <FormRow>
                         {passwordWarning}
-                    </FormRow>
                     <br/>
 
-                    <FormRow>
-                        <input className="btn btn-default"
-                               type="submit"
-                               value="Sign Up"
-                               disabled={disableSubmit}
-                               onClick={() => this.handleSubmit()} />
-                    </FormRow>
+                    <input className="btn btn-default"
+                           type="submit"
+                           value="Sign Up"
+                           onClick={() => this.handleSubmit()} />
                     <hr/>
-                    <FormRow>
-                        {profileErrorMessage}
-                    </FormRow>
+                    {profileErrorMessage}
                 </Form>
             </div>
         );
@@ -136,7 +137,7 @@ class PersonForm extends Component {
     renderSuccess() {
         return (
             <div>
-                <h1>Sign Up Successful</h1>
+                <h3>Sign Up Successful</h3>
 
                 <p className="lead">
                     Click <Link to="/predictions">here</Link> to log in and make your predictions.

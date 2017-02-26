@@ -3,7 +3,8 @@ import gql from 'graphql-tag';
 export const CurrentUserQuery = gql`query CurrentPerson {
   currentPerson {
     id,
-    name
+    name,
+    tiebreaker
   }
 }`;
 

@@ -7,13 +7,13 @@ import { Chance } from "chance";
 import {
     Form,
     FormEditStates,
+    FormGroupLayout,
     Schema,
     Field,
     TextEdit,
     Chooser
 } from "react-dynamic-forms";
 
-import FormRow from "./FormRow";
 import {
     CategoryQuery,
     CurrentPersonPredictionsQuery,
@@ -50,33 +50,26 @@ function buildSchema(categories, mode) {
     );
 }
 class PredictionsForm extends Component {
-    constructor(props, context) {
-        super(props, context);
-
-        console.log("constructor", props, this.props.foobar);
-
-        this.state = {
-            editMode: FormEditStates.ALWAYS,
-        }
-    }
-
     static defaultProps = {
         mode: "edit"
     }
 
     componentWillMount() {
-        this.setInitialValues(this.props.predictions);
+        this.state = {
+            editMode: FormEditStates.ALWAYS,
+            value: this.initialValues(this.props.tiebreaker, this.props.predictions)
+        };
     }
 
-    setInitialValues(predictions) {
-        let value = {};
+    initialValues(tiebreaker, predictions) {
+        let value = { tiebreaker };
         _.each(predictions, (prediction) => {
             value[prediction.categoryId] = prediction.nomineeId;
         });
 
         value = Immutable.fromJS(value);
 
-        this.setState({ value, initialValueSet: true });
+        return value;
     }
 
 
@@ -87,7 +80,6 @@ class PredictionsForm extends Component {
 
         if(!this.state.value.get("tiebreaker")) {
             const r = chance.integer({ min: 0, max: 100 });
-            console.log("RR", r);
             value = value.set("tiebreaker", r.toString());
         }
 
@@ -95,18 +87,15 @@ class PredictionsForm extends Component {
             const fieldName = category.id.toString();
             if(!value.get(fieldName)) {
                 const nominees = category.nomineesByCategoryId.nodes;
-                console.log("nom", nominees.length);
                 const selection = chance.pickone(nominees);
                 value = value.set(fieldName, selection.id);
             }
         });
         this.setState({ value });
-        console.log("RANDO!!", this.state.value);
     }
 
     handleSubmit(e) {
         console.log("handleSubmit", this.state.value.toJS());
-        // {prediction: {personId: 1, categoryId: 1, nomineeId: 1}}
         this.state.value.forEach((nomineeId, categoryId) => {
             if(categoryId === "tiebreaker") {
                 this.props.setTiebreaker({
@@ -149,15 +138,20 @@ class PredictionsForm extends Component {
             )
         });
 
-        const tiebreakerText = `
-How many time's will the name Trump be mentioned from the stage?
-Must say Trump. Closest without going over wins.`;
+        const tiebreakerText = (
+            <div style={{ width: "350px"}}>
+                How many time's will the name Trump be mentioned from the stage?
+                Must say Trump. Closest without going over wins.
+            </div>
+        );
+
         return (
             <Form
                 name="main"
                 schema={schema}
                 edit={this.state.editMode}
                 value={this.state.value}
+                groupLayout={FormGroupLayout.COLUMN}
                 onChange={(fieldName, value) => {
                         console.log("*** CHG VALUYE", value);
                         this.setState({ value })
@@ -172,31 +166,22 @@ Must say Trump. Closest without going over wins.`;
 
                 <h4>Tiebreaker</h4>
                 <TextEdit field="tiebreaker" width={50} />
-                <FormRow>
-                    {tiebreakerText}
-                </FormRow>
+                {tiebreakerText}
 
                 <h4>Randomize Predictions</h4>
-                <FormRow>
-                    <input className="btn btn-xs "
-                           type="submit"
-                           value="Randomize Predictions"
-                           onClick={() => this.handleRandom()} />
-                </FormRow>
-                <FormRow>
-                    <br/>
-                    <p>
-                        Use the randomize predictions button to randomly select choices for
-                        any selections you haven't made yet. For the truly lazy.
-                    </p>
-                </FormRow>
+                <p style={{ width: "350px" }}>
+                    Use the randomize predictions button to randomly select choices for
+                    any selections you haven't made yet. For the truly lazy.
+                </p>
+                <input className="btn btn-warning btn-xs"
+                       type="submit"
+                       value="Randomize Predictions"
+                       onClick={() => this.handleRandom()} />
                 <hr/>
-                <FormRow>
-                    <input className="btn btn-default btn-primary"
-                           type="submit"
-                           value="Submit Predictions"
-                           onClick={() => this.handleSubmit()} />
-                </FormRow>
+                <input className="btn btn-default btn-primary"
+                       type="submit"
+                       value="Submit Predictions"
+                       onClick={() => this.handleSubmit()} />
             </Form>
         );
     }
@@ -215,6 +200,7 @@ class Predictions extends Component {
 
         const categories = this.props.categories.allCategories.nodes;
         const predictions = this.props.predictions.currentPersonPredictions.nodes;
+        const tiebreaker = this.props.tiebreaker;
 
         return (
             <div>
@@ -222,6 +208,7 @@ class Predictions extends Component {
                 <PredictionsFormWithMutations
                     categories={categories}
                     predictions={predictions}
+                    tiebreaker={tiebreaker}
                 />
             </div>
         );

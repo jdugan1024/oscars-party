@@ -83,6 +83,7 @@ class MainLayout extends Component {
     render() {
         const person = this.props.person;
         const name = person ? person.name : "Guest";
+        const tiebreaker = person ? person.tiebreaker : null;
 
         console.log("PERSON", person, this.props);
         let links = null;
@@ -131,7 +132,7 @@ class MainLayout extends Component {
                             <Route exact path="/" render={() => {
                                     return (<Home person={person} />)}} />
                             <Route path="/dashboard" component={Dashboard} />
-                            <PrivateRoute path="/predictions" component={Predictions} />
+                            <PrivateRoute path="/predictions" component={() => (<Predictions tiebreaker={tiebreaker}/>)} />
                             <Route path="/signup" component={SignUp} />
                             <Route path="/login" component={Login} />
                             <Route path="/logout" render={() => {
