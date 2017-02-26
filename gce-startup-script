@@ -1,18 +1,87 @@
+#!/bin/bash
 
-yum install -y gcc-c++ make
+set -x
+
+yum install -y gcc-c++ make git lsof
 
 # install node.js
 curl -sL https://rpm.nodesource.com/setup_7.x | sudo -E bash -
 yum -y install nodejs
 
-# install postgresql 9.6
+# install postgresql
 yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
-yum -y install postgresql96 postgresql96-server postgresql96-devel postgresql96-libs
+yum -y install postgresql96 postgresql96-server postgresql96-devel postgresql96-libs postgresql96-contrib
 
 systemctl enable postgresql-9.6
 /usr/pgsql-9.6/bin/postgresql96-setup initdb
+sed -i'' '/127.0.0.1/ s/ident/trust/' /var/lib/pgsql/9.6/data/pg_hba.conf
 systemctl start postgresql-9.6
 
 sudo -u postgres createuser -s jdugan
-sudo -u postgres createuser oscars
-sudo -u postgres createdb -O oscars oscars
+sudo -u postgres createuser -s _node
+sudo -u postgres createdb -O _node oscars
+
+export PATH=$PATH:/usr/pgsql-9.6/bin/
+
+# python virtualenv
+yum -y install python-virtualenv python2-pip
+pip install --upgrade pip
+pip install supervisor psycopg2
+
+# setup user for app
+useradd -m -d /home/_node _node
+
+# Get the application source code from github
+# git requires $HOME and it's not set during the startup script.
+export HOME=/root
+git config --global credential.helper gcloud.sh
+git clone https://github.com/jdugan1024/oscars-party.git /opt/app
+chown -R _node:_node /opt/app
+
+sudo -u _node psql oscars < /opt/app/server/oscars.sql
+sudo -u _node sh -c "cd /opt/app/data-loading/ && python insert_data.py"
+
+cd /opt/app/server
+sudo -u _node npm install
+
+# setup supervisor
+mkdir -p /etc/supervisord/conf.d
+
+cat >/usr/lib/systemd/system/supervisord.service << EOF
+[Unit]
+Description=supervisord - Supervisor process control system for UNIX
+Documentation=http://supervisord.org
+After=network.target
+
+[Service]
+Type=forking
+ExecStart=/bin/supervisord -c /etc/supervisord/supervisord.conf
+ExecReload=/bin/supervisorctl reload
+ExecStop=/bin/supervisorctl shutdown
+User=root
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+SUPERVISOR_CONF=/etc/supervisord/supervisord.conf
+echo_supervisord_conf > ${SUPERVISOR_CONF}
+
+systemctl enable supervisord
+systemctl start supervisord
+
+cat >>${SUPERVISOR_CONF} << EOF
+
+[program:oscars]
+directory=/opt/app/server
+command=npm start
+autostart=true
+autorestart=true
+user=_node
+environment=HOME="/home/_node",USER="_node",NODE_ENV="production"
+stdout_logfile=syslog
+stderr_logfile=syslog
+EOF
+
+supervisorctl -c ${SUPERVISOR_CONF} reread
+supervisorctl -c ${SUPERVISOR_CONF} update
