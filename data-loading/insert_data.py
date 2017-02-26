@@ -2,7 +2,7 @@ import json
 
 import psycopg2
 
-data = json.loads(open("../2017oscars.json").read())
+data = json.loads(open("./2017oscars.json").read())
 
 dbh = psycopg2.connect(database="oscars")
 
