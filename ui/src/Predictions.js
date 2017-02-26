@@ -235,6 +235,8 @@ const PredictionsFormWithMutations = compose(
                 setPrediction({ variables }) {
                     return mutate({
                         variables: variables,
+                        // XXX this gets executed for each mutation, since we're doing
+                        //     a bunch of small mutations this is super inefficient
                         refetchQueries: [{ query: CurrentPersonPredictionsQuery }]
                     })
                 }
