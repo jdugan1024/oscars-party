@@ -58,9 +58,9 @@ networkInterface.use([{
 
 const client = new ApolloClient({
     networkInterface,
+    connectToDevTools: true,
     dataIdFromObject: (result) => {
         if (result.__typename && result.__typename === "Prediction") {
-            console.log("Prediction:", result);
             return  "Prediction:" + result.categoryId + ":" + result.personId;
         } else if (result.nodeId) {
             return result.nodeId;
