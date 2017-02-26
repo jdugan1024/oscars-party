@@ -1,5 +1,6 @@
 import express from "express";
 import postgraphql from "postgraphql";
+import path from "path";
 
 const app = express();
 
@@ -12,10 +13,13 @@ const options = {
   pgDefaultRole: "oscars_anonymous"
 };
 
-app.use(postgraphql(pgConfig, schemaName, options));
+const buildDir = path.join(__dirname, '/../../ui/build');
 
-app.get('/', function (req, res) {
-    res.send('Hello World!')
+app.use(postgraphql(pgConfig, schemaName, options));
+app.use(express.static(buildDir));
+
+app.get('*', function (req, res) {
+    res.sendFile(path.join(buildDir, '/index.html'));
 });
 
 app.listen(3001, () => {
