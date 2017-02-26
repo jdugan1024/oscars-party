@@ -134,6 +134,9 @@ class PredictionsForm extends Component {
     }
 
     render() {
+        //
+        // XXX: this is a workaround to force the site to reload
+        //      and refetch data
         if (this.state.formSubmitted) {
             window.location.pathname = "/dashboard";
         }
