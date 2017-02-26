@@ -13,8 +13,6 @@ import {
     TextEdit,
 } from "react-dynamic-forms";
 
-import FormRow from "./FormRow";
-
 import { RegisterPersonMutation } from "./GraphQL";
 
 const SCHEMA = (

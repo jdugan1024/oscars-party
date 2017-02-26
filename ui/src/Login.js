@@ -3,8 +3,6 @@ import _ from "underscore";
 import Immutable  from "immutable";
 import { graphql, compose } from 'react-apollo';
 
-import FormRow from "./FormRow";
-
 import {
     Form,
     FormEditStates,
