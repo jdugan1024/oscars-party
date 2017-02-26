@@ -1,0 +1,18 @@
+
+yum install -y gcc-c++ make
+
+# install node.js
+curl -sL https://rpm.nodesource.com/setup_7.x | sudo -E bash -
+yum -y install nodejs
+
+# install postgresql 9.6
+yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
+yum -y install postgresql96 postgresql96-server postgresql96-devel postgresql96-libs
+
+systemctl enable postgresql-9.6
+/usr/pgsql-9.6/bin/postgresql96-setup initdb
+systemctl start postgresql-9.6
+
+sudo -u postgres createuser -s jdugan
+sudo -u postgres createuser oscars
+sudo -u postgres createdb -O oscars oscars
