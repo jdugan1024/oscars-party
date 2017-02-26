@@ -65,6 +65,7 @@ class PredictionsForm extends Component {
         }
 
         this.state = {
+            formSubmitted: false,
             editMode: editMode,
             value: this.initialValues(this.props.tiebreaker, this.props.predictions)
         };
@@ -127,10 +128,16 @@ class PredictionsForm extends Component {
                         }
                     }});
             }
-        })
+        });
+
+        this.setState({ formSubmitted: true });
     }
 
     render() {
+        if (this.state.formSubmitted) {
+            window.location.pathname = "/dashboard";
+        }
+
         const categories = _.sortBy(this.props.categories,
             (category) => category.points).reverse();
 
@@ -200,7 +207,6 @@ class PredictionsForm extends Component {
                     value={this.state.value}
                     groupLayout={FormGroupLayout.COLUMN}
                     onChange={(fieldName, value) => {
-                            console.log("*** CHG VALUYE", value);
                             this.setState({ value })
                         }}
                     onSubmit={this.handleSubmit}

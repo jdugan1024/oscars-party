@@ -2,6 +2,7 @@ import gql from 'graphql-tag';
 
 export const CurrentUserQuery = gql`query CurrentPerson {
   currentPerson {
+    nodeId,
     id,
     name,
     tiebreaker
@@ -30,6 +31,7 @@ export const CurrentPersonPredictionsQuery = gql`
 query CurrentPersonPredictions {
   currentPersonPredictions {
     nodes {
+      nodeId,
       categoryId,
       nomineeId
     }
