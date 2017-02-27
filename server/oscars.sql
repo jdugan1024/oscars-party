@@ -66,6 +66,26 @@ comment on column oscars.prediction.person_id is 'Person making prediction.';
 comment on column oscars.prediction.category_id is 'Category of prediction.';
 comment on column oscars.prediction.nominee_id is 'Nominee predicted to win.';
 
+create table oscars.winner (
+       id    serial primary key,
+       category_id integer not null references oscars.category(id) on delete cascade,
+       nominee_id integer not null references oscars.nominee(id) on delete cascade,
+       unique (category_id, nominee_id)
+);
+
+comment on table oscars.winner is 'Who/what won in each category.';
+comment on column oscars.winner.category_id is 'Category of winner.';
+comment on column oscars.winner.nominee_id is 'Nominee that won. ';
+
+create table oscars.current_category (
+       id serial primary key,
+       category_id integer not null references oscars.category(id) on delete cascade,
+       unique(category_id)
+);
+
+comment on table oscars.current_category is 'Current category during the show.';
+comment on column oscars.current_category.category_id is 'The current category.';
+
 --
 -- Authentication/Authorization
 --
@@ -257,6 +277,57 @@ $$ language plpgsql strict;
 
 comment on function oscars.set_tiebreaker_for_person(integer) is 'Sets tiebreaker for current person.';
 
+CREATE OR REPLACE FUNCTION oscars.winner_notify() RETURNS void AS $$
+DECLARE
+  json_text text;
+BEGIN
+  select array_to_json(array_agg(row_to_json(t))) FROM (
+    select oscars.person.name, oscars.person.id, details.score
+      from oscars.person left join (
+           select person.id, sum(category.points) as score
+             from oscars.person as person
+             join oscars.prediction as prediction on (prediction.person_id = person.id)
+             join oscars.category as category on (prediction.category_id = category.id)
+             join oscars.winner as winner on (prediction.nominee_id = winner.nominee_id
+                                              AND prediction.category_id = winner.category_id)
+             group by person.name, person.id
+    ) as details on (details.id = oscars.person.id)
+    order by details.score
+  ) AS t INTO json_text;
+
+  -- raise notice 'json (%)', json_text;
+
+  perform pg_notify('leaderboard', json_text::text);
+END;
+$$ LANGUAGE plpgsql strict;
+
+CREATE OR REPLACE FUNCTION oscars.winner_notify_trigger() RETURNS trigger AS $$
+BEGIN
+   perform oscars.winner_notify();
+
+   RETURN NEW;
+END;
+$$ LANGUAGE plpgsql strict;
+
+DROP TRIGGER winner_notify_insert ON oscars.winner;
+CREATE TRIGGER winner_notify_insert AFTER INSERT ON oscars.winner
+  FOR EACH STATEMENT EXECUTE PROCEDURE oscars.winner_notify_trigger();
+DROP TRIGGER winner_notify_update ON oscars.winner;
+CREATE TRIGGER winner_notify_update AFTER UPDATE ON oscars.winner
+  FOR EACH STATEMENT EXECUTE PROCEDURE oscars.winner_notify_trigger();
+DROP TRIGGER winner_notify_delete ON oscars.winner;
+CREATE TRIGGER winner_notify_delete AFTER DELETE ON oscars.winner
+  FOR EACH STATEMENT EXECUTE PROCEDURE oscars.winner_notify_trigger();
+
+
+-- Query to get the current category info.
+-- select category.name as category, nominee.name as nominee, count(*) as count
+--   from oscars.category as category
+--   join oscars.prediction as prediction on (prediction.category_id = category.id)
+--   join oscars.nominee as nominee on (prediction.nominee_id = nominee.id)
+--   where category.id = 1
+--   group by category.name, nominee.name;
+
 grant usage on schema oscars to oscars_anonymous, oscars_person;
 
 grant select on table oscars.person to oscars_anonymous, oscars_person;
@@ -265,6 +336,14 @@ grant update, delete on table oscars.person to oscars_person;
 grant select on table oscars.prediction to oscars_anonymous, oscars_person;
 grant insert, update, delete on table oscars.prediction to oscars_person;
 grant usage on sequence oscars.prediction_id_seq to oscars_person;
+
+grant select on table oscars.winner to oscars_anonymous, oscars_person;
+grant insert, update, delete on table oscars.winner to oscars_person;
+grant usage on sequence oscars.winner_id_seq to oscars_person;
+
+grant select on table oscars.current_category to oscars_anonymous, oscars_person;
+grant insert, update, delete on table oscars.current_category to oscars_person;
+grant usage on sequence oscars.current_category_id_seq to oscars_person;
 
 grant select on table oscars.category to oscars_anonymous, oscars_person;
 grant select on table oscars.nominee to oscars_anonymous, oscars_person;
@@ -280,6 +359,12 @@ create policy select_person on oscars.person for select
   using (true);
 
 create policy select_prediction on oscars.prediction for select
+  using (true);
+
+create policy select_winner on oscars.winner for select
+  using (true);
+
+create policy select_current_category on oscars.current_category for select
   using (true);
 
 create policy update_person on oscars.person for update to oscars_person
