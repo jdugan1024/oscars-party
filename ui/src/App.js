@@ -25,6 +25,7 @@ import Dashboard from "./Dashboard";
 import SignUp from "./SignUp";
 import Login from "./Login";
 import Predictions from "./Predictions";
+import Console from "./Console";
 
 import { CurrentUserQuery } from "./GraphQL.js";
 
@@ -146,6 +147,7 @@ class MainLayout extends Component {
                                     return (<Home person={person} />)}} />
                             <Route path="/dashboard" component={Dashboard} />
                             <PrivateRoute path="/predictions" component={() => (<Predictions tiebreaker={tiebreaker}/>)} />
+                            <PrivateRoute path="/console" component={() => (<Console person={person}/>)} />
                             <Route path="/signup" component={SignUp} />
                             <Route path="/login" component={Login} />
                             <Route path="/logout" render={() => {

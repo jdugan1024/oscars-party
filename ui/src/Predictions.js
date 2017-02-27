@@ -106,6 +106,11 @@ class PredictionsForm extends Component {
     }
 
     handleSubmit(e) {
+        if (this.state.hasMissing || this.state.hasErrors) {
+            console.log("missing entries");
+            return;
+        }
+
         if (secondsRemaining() < -300) {
             console.log("too late to submit changes");
             return;

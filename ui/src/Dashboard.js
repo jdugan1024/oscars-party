@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import io from "socket.io-client";
+import _ from "underscore";
 
 import { secondsRemaining } from  "./Time";
 
@@ -46,6 +48,44 @@ class CountdownDisplay extends Component {
         );
     }
 }
+
+class LeaderBoard extends Component {
+    render() {
+        const sortedLeaderboard = _.sortBy(this.props.leaderboard, (item) => item.score)
+                                   .reverse();
+        const rows = _.map(sortedLeaderboard, (item) => {
+            const name = item.name;
+            const score = item.score ? item.score : 0;
+            const key = "" + name + "--" + item.id;
+            return (
+                <tr key={key}>
+                    <td>{name}</td>
+                    <td>{score}</td>
+                </tr>
+            )
+        });
+
+        return (
+            <div className="row">
+                <div className="col-md-4">
+                    <h4>Leaderboard</h4>
+                    <table className="table table-striped table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Points</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {rows}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        );
+    }
+}
+
 class Dashboard extends Component {
     constructor(props, context) {
         super(props, context);
@@ -58,6 +98,15 @@ class Dashboard extends Component {
         }
     }
 
+    componentWillMount() {
+        this.socket = io();
+        this.socket.on("ping", (msg) => console.log("PING:", msg));
+        this.socket.on("leaderboard", (msg) => {
+            console.log("leaderboard update", msg);
+            this.setState({ leaderboard: JSON.parse(msg) })
+        });
+    }
+
     componentDidMount() {
         this.calculateRemaining();
         var intervalId = setInterval(this.calculateRemaining.bind(this), 1000);
@@ -67,6 +116,10 @@ class Dashboard extends Component {
     componentWillUnmount() {
         if (this.state.intervalId) {
             clearInterval(this.state.intervalId);
+        }
+        if(this.socket) {
+            console.log("closing socket");
+            this.socket.close();
         }
     }
 
@@ -100,13 +153,17 @@ class Dashboard extends Component {
                     minutes={this.state.minutes}
                     seconds={this.state.seconds}
                 />
+
+                <hr/>
             </div>
         );
     }
 
     renderDashboard() {
         return (
-            <div>This is the dashboard!</div>
+            <div>
+                <LeaderBoard leaderboard={this.state.leaderboard} />
+            </div>
         )
     }
 

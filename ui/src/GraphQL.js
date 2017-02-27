@@ -61,9 +61,22 @@ mutation SetTiebreaker($tiebreakerInput: SetTiebreakerForPersonInput!) {
 `;
 
 
+export const SetWinnerMutation = gql`
+mutation CreateWinner($winnerInput: CreateWinnerInput!) {
+  createWinner(input: $winnerInput) {
+    winner {
+      categoryId
+      nomineeId
+      __typename
+    }
+    __typename
+  }
+}
+`;
+
 export const RegisterPersonMutation = gql`
 mutation RegisterPerson($personInput: RegisterPersonInput!) {
-  registerPerson(input: $personInput) {
+    registerPerson(input: $personInput) {
     person {
       id,
       name
