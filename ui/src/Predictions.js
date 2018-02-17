@@ -121,7 +121,7 @@ class PredictionsForm extends Component {
                 this.props.setTiebreaker({
                     variables: {
                         tiebreakerInput: {
-                            tiebreaker: parseInt(nomineeId)
+                            tiebreaker: parseInt(nomineeId, 10)
                         }
                     }});
             } else {

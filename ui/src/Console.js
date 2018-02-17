@@ -18,8 +18,6 @@ import {
     SetWinnerMutation
 } from "./GraphQL";
 
-import { secondsRemaining } from "./Time";
-
 /*
  * CategoryList.propTypes = {
  *     data: PropTypes.shape({
