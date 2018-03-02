@@ -32,20 +32,24 @@ comment on column oscars_private.person_account.password_hash is 'An opaque hash
 
 
 create table oscars.category (
-       id       serial primary key,
-       name     text not null check (char_length(name) < 200),
-       points   integer not null
+       id              serial primary key,
+       name            text not null check (char_length(name) < 200),
+       points          integer not null,
+       display_order   integer not null,
+       unique(name)
 );
 
 comment on table oscars.category is 'A category of awards.';
 comment on column oscars.category.id is 'Primary key for category.';
 comment on column oscars.category.name is 'Name of category';
 comment on column oscars.category.points is 'Number of points this category is worth.';
+comment on column oscars.category.display_order is 'The order category is displayed';
 
 create table oscars.nominee (
        id    serial primary key,
        name  text not null check (char_length(name) < 200),
-       category_id integer not null references oscars.category(id)
+       category_id integer not null references oscars.category(id),
+       unique(name, category_id)
 );
 
 comment on table oscars.nominee is 'A nominee for a given category.';
@@ -138,41 +142,39 @@ END
 $body$;
 
 
--- anonymous user
--- DO
--- $body$
--- BEGIN
---   IF NOT EXISTS (
---     SELECT *
---     FROM   pg_catalog.pg_user
---     WHERE  usename = 'oscars_anonymous') THEN
-
---     create role oscars_anonymous;
---   END IF;
--- END
--- $body$;
-
--- allow admin user to become anonymous user
-create role oscars_anonymous;
-grant oscars_anonymous to oscars_postgraphql;
-
 -- authenticated user
--- DO
--- $body$
--- BEGIN
---   IF NOT EXISTS (
---     SELECT *
---     FROM pg_catalog.pg_user
---     WHERE usename = 'oscars_person') THEN
+DO
+$body$
+BEGIN
+  IF NOT EXISTS (
+    SELECT *
+    FROM pg_catalog.pg_roles
+    WHERE rolname = 'oscars_person') THEN
 
---     create role oscars_person;
---   END IF;
--- END
--- $body$;
+    create role oscars_person;
+  END IF;
+END
+$body$;
 
 -- allow admin user to become authenticated user
-create role oscars_person;
 grant oscars_person to oscars_postgraphql;
+
+-- anonymous user
+DO
+$body$
+BEGIN
+IF NOT EXISTS (
+SELECT *
+FROM   pg_catalog.pg_roles
+WHERE  rolname = 'oscars_anonymous') THEN
+
+create role oscars_anonymous;
+END IF;
+END
+$body$;
+
+-- allow admin user to become anonymous user
+grant oscars_anonymous to oscars_postgraphql;
 
 create type oscars.jwt_token as (
   role text,
@@ -309,13 +311,13 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql strict;
 
-DROP TRIGGER winner_notify_insert ON oscars.winner;
+DROP TRIGGER IF EXISTS winner_notify_insert ON oscars.winner;
 CREATE TRIGGER winner_notify_insert AFTER INSERT ON oscars.winner
   FOR EACH STATEMENT EXECUTE PROCEDURE oscars.winner_notify_trigger();
-DROP TRIGGER winner_notify_update ON oscars.winner;
+DROP TRIGGER IF EXISTS winner_notify_update ON oscars.winner;
 CREATE TRIGGER winner_notify_update AFTER UPDATE ON oscars.winner
   FOR EACH STATEMENT EXECUTE PROCEDURE oscars.winner_notify_trigger();
-DROP TRIGGER winner_notify_delete ON oscars.winner;
+DROP TRIGGER IF EXISTS winner_notify_delete ON oscars.winner;
 CREATE TRIGGER winner_notify_delete AFTER DELETE ON oscars.winner
   FOR EACH STATEMENT EXECUTE PROCEDURE oscars.winner_notify_trigger();
 
