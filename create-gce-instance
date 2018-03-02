@@ -5,5 +5,5 @@ gcloud compute instances create oscars \
     --image=https://www.googleapis.com/compute/v1/projects/centos-cloud/global/images/centos-7-v20170223 \
     --machine-type=n1-standard-1 \
     --metadata-from-file startup-script=./gce-startup-script \
-    --tags=http-server \
-    --zone=us-central1-c    
+    --tags=http-server,https-server \
+    --zone=us-central1-c
