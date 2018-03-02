@@ -95,6 +95,7 @@ http {
     return 404; # managed by Certbot
 }}
 EOF
+systemctl enable nginx
 systemctl start nginx
 
 # allow nginx to proxy
@@ -164,6 +165,3 @@ EOF
 
 supervisorctl -c ${SUPERVISOR_CONF} reread
 supervisorctl -c ${SUPERVISOR_CONF} update
-
-# redirect port 80 to port 3001 (where the node app is running)
-iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3001
