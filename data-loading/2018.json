@@ -13,11 +13,11 @@
     }, 
     {
         "nominees": [
-            "Baby Driver (Paul Machliss and Jonathan Amos)", 
-            "Dunkirk (Lee Smith)", 
-            "I, Tonya (Tatiana S. Riegel)", 
-            "The Shape of Water (Sidney Wolinsky)", 
-            "Three Billboards outside Ebbing, Missouri (Jon Gregory)"
+            "Baby Driver", 
+            "Dunkirk", 
+            "I, Tonya", 
+            "The Shape of Water", 
+            "Three Billboards outside Ebbing, Missouri"
         ], 
         "points": 2, 
         "order": 12, 
@@ -25,11 +25,11 @@
     }, 
     {
         "nominees": [
-            "Dear Basketball (Glen Keane and Kobe Bryant)", 
-            "Garden Party (Victor Caire and Gabriel Grapperon)", 
-            "Lou (Dave Mullins and Dana Murray)", 
-            "Negative Space (Max Porter and Ru Kuwahata)", 
-            "Revolting Rhymes (Jakob Schuh and Jan Lachauer)"
+            "Dear Basketball", 
+            "Garden Party", 
+            "Lou", 
+            "Negative Space", 
+            "Revolting Rhymes"
         ], 
         "points": 2, 
         "order": 18, 
@@ -37,11 +37,11 @@
     }, 
     {
         "nominees": [
-            "Edith+Eddie (Laura Checkoway and Thomas Lee Wright)", 
-            "Heaven Is a Traffic Jam on the 405 (Frank Stiefel)", 
-            "Heroin(e) (Elaine McMillion Sheldon and Kerrin Sheldon)", 
-            "Knife Skills (Thomas Lennon)", 
-            "Traffic Stop (Kate Davis and David Heilbroner)"
+            "Edith+Eddie", 
+            "Heaven Is a Traffic Jam on the 405", 
+            "Heroin(e)", 
+            "Knife Skills", 
+            "Traffic Stop"
         ], 
         "points": 2, 
         "order": 11, 
@@ -49,11 +49,11 @@
     }, 
     {
         "nominees": [
-            "Baby Driver (Julian Slater, Tim Cavagin and Mary H. Ellis)", 
-            "Blade Runner 2049 (Ron Bartlett, Doug Hemphill and Mac Ruth)", 
-            "Dunkirk (Gregg Landaker, Gary A. Rizzo and Mark Weingarten)", 
-            "The Shape of Water (Christian Cooke, Brad Zoern and Glen Gauthier)", 
-            "Star Wars: The Last Jedi (David Parker, Michael Semanick, Ren Klyce and Stuart Wilson)"
+            "Baby Driver", 
+            "Blade Runner 2049", 
+            "Dunkirk", 
+            "The Shape of Water", 
+            "Star Wars: The Last Jedi"
         ], 
         "points": 1, 
         "order": 21, 
@@ -61,11 +61,11 @@
     }, 
     {
         "nominees": [
-            "DeKalb Elementary (Reed Van Dyk)", 
-            "The Eleven O'Clock (Derin Seale and Josh Lawson)", 
-            "My Nephew Emmett (Kevin Wilson, Jr.)", 
-            "The Silent Child (Chris Overton and Rachel Shenton)", 
-            "Watu Wote/All of Us (Katja Benrath and Tobias Rosen)"
+            "DeKalb Elementary", 
+            "The Eleven O'Clock", 
+            "My Nephew Emmett", 
+            "The Silent Child", 
+            "Watu Wote/All of Us"
         ], 
         "points": 2, 
         "order": 19, 
@@ -109,11 +109,11 @@
     }, 
     {
         "nominees": [
-            "Blade Runner 2049 (John Nelson, Gerd Nefzer, Paul Lambert and Richard R. Hoover)", 
-            "Guardians of the Galaxy Vol. 2 (Christopher Townsend, Guy Williams, Jonathan Fawkner and Dan Sudick)", 
-            "Kong: Skull Island (Stephen Rosenbaum, Jeff White, Scott Benza and Mike Meinardus)", 
-            "Star Wars: The Last Jedi (Ben Morris, Mike Mulholland, Neal Scanlan and Chris Corbould)", 
-            "War for the Planet of the Apes (Joe Letteri, Daniel Barrett, Dan Lemmon and Joel Whist)"
+            "Blade Runner 2049", 
+            "Guardians of the Galaxy Vol. 2", 
+            "Kong: Skull Island", 
+            "Star Wars: The Last Jedi", 
+            "War for the Planet of the Apes"
         ], 
         "points": 3, 
         "order": 22, 
@@ -157,9 +157,9 @@
     }, 
     {
         "nominees": [
-            "Darkest Hour (Kazuhiro Tsuji, David Malinowski and Lucy Sibbick)", 
-            "Victoria & Abdul (Daniel Phillips and Lou Sheppard)", 
-            "Wonder (Arjen Tuiten)"
+            "Darkest Hour", 
+            "Victoria & Abdul", 
+            "Wonder"
         ], 
         "points": 2, 
         "order": 14, 
@@ -167,15 +167,15 @@
     }, 
     {
         "nominees": [
-            "Call Me by Your Name (Peter Spears, Luca Guadagnino, Emilie Georges and Marco Morabito)", 
-            "Darkest Hour (Tim Bevan, Eric Fellner, Lisa Bruce, Anthony McCarten and Douglas Urbanski)", 
-            "Dunkirk (Emma Thomas and Christopher Nolan)", 
-            "Get Out (Sean McKittrick, Jason Blum, Edward H. Hamm Jr. and Jordan Peele)", 
-            "Lady Bird (Scott Rudin, Eli Bush and Evelyn O'Neill)", 
-            "Phantom Thread (JoAnne Sellar, Paul Thomas Anderson, Megan Ellison and Daniel Lupi)", 
-            "The Post (Amy Pascal, Steven Spielberg and Kristie Macosko Krieger)", 
-            "The Shape of Water (Guillermo del Toro and J. Miles Dale)", 
-            "Three Billboards outside Ebbing, Missouri (Graham Broadbent, Pete Czernin and Martin McDonagh)"
+            "Call Me by Your Name", 
+            "Darkest Hour", 
+            "Dunkirk", 
+            "Get Out", 
+            "Lady Bird", 
+            "Phantom Thread", 
+            "The Post", 
+            "The Shape of Water", 
+            "Three Billboards outside Ebbing, Missouri"
         ], 
         "points": 10, 
         "order": 1, 
@@ -195,11 +195,11 @@
     }, 
     {
         "nominees": [
-            "Baby Driver (Julian Slater)", 
-            "Blade Runner 2049 (Mark Mangini and Theo Green)", 
-            "Dunkirk (Richard King and Alex Gibson)", 
-            "The Shape of Water (Nathan Robitaille and Nelson Ferreira)", 
-            "Star Wars: The Last Jedi (Matthew Wood and Ren Klyce)"
+            "Baby Driver", 
+            "Blade Runner 2049", 
+            "Dunkirk", 
+            "The Shape of Water", 
+            "Star Wars: The Last Jedi"
         ], 
         "points": 1, 
         "order": 20, 
@@ -207,11 +207,11 @@
     }, 
     {
         "nominees": [
-            "Beauty and the Beast (Sarah Greenwood (Production Design); Katie Spencer (Set Decoration))", 
-            "Blade Runner 2049 (Dennis Gassner (Production Design); Alessandra Querzola (Set Decoration))", 
-            "Darkest Hour (Sarah Greenwood (Production Design); Katie Spencer (Set Decoration))", 
-            "Dunkirk (Nathan Crowley (Production Design); Gary Fettis (Set Decoration))", 
-            "The Shape of Water (Paul Denham Austerberry (Production Design); Shane Vieau and Jeffrey A. Melvin (Set Decoration))"
+            "Beauty and the Beast", 
+            "Blade Runner 2049", 
+            "Darkest Hour", 
+            "Dunkirk", 
+            "The Shape of Water"
         ], 
         "points": 3, 
         "order": 17, 
@@ -231,11 +231,11 @@
     }, 
     {
         "nominees": [
-            "Abacus: Small Enough to Jail (Steve James, Mark Mitten and Julie Goldman)", 
-            "Faces Places (Agn\u00e8s Varda, JR and Rosalie Varda)", 
-            "Icarus (Bryan Fogel and Dan Cogan)", 
-            "Last Men in Aleppo (Feras Fayyad, Kareem Abeed and S\u00f8ren Steen Jespersen)", 
-            "Strong Island (Yance Ford and Joslyn Barnes)"
+            "Abacus: Small Enough to Jail", 
+            "Faces Places", 
+            "Icarus", 
+            "Last Men in Aleppo", 
+            "Strong Island"
         ], 
         "points": 4, 
         "order": 10, 
@@ -255,11 +255,11 @@
     }, 
     {
         "nominees": [
-            "Beauty and the Beast (Jacqueline Durran)", 
-            "Darkest Hour (Jacqueline Durran)", 
-            "Phantom Thread (Mark Bridges)", 
-            "The Shape of Water (Luis Sequeira)", 
-            "Victoria & Abdul (Consolata Boyle)"
+            "Beauty and the Beast", 
+            "Darkest Hour", 
+            "Phantom Thread", 
+            "The Shape of Water", 
+            "Victoria & Abdul"
         ], 
         "points": 3, 
         "order": 8, 
@@ -267,11 +267,11 @@
     }, 
     {
         "nominees": [
-            "A Fantastic Woman (Chile; Directed by Sebasti\u00e1n Lelio)", 
-            "The Insult (Lebanon; Directed by Ziad Doueiri)", 
-            "Loveless (Russia; Directed by Andrey Zvyagintsev)", 
-            "On Body and Soul (Hungary; Directed by Ildik\u00f3 Enyedi)", 
-            "The Square (Sweden; Directed by Ruben \u00d6stlund)"
+            "A Fantastic Woman (Chile)", 
+            "The Insult (Lebanon)", 
+            "Loveless (Russia)", 
+            "On Body and Soul (Hungary)", 
+            "The Square (Sweden)"
         ], 
         "points": 4, 
         "order": 13, 
@@ -279,11 +279,11 @@
     }, 
     {
         "nominees": [
-            "The Boss Baby (Tom McGrath and Ramsey Naito)", 
-            "The Breadwinner (Nora Twomey and Anthony Leo)", 
-            "Coco (Lee Unkrich and Darla K. Anderson)", 
-            "Ferdinand (Carlos Saldanha and Lori Forte)", 
-            "Loving Vincent (Dorota Kobiela, Hugh Welchman and Ivan Mactaggart)"
+            "The Boss Baby", 
+            "The Breadwinner", 
+            "Coco", 
+            "Ferdinand", 
+            "Loving Vincent"
         ], 
         "points": 4, 
         "order": 6, 
