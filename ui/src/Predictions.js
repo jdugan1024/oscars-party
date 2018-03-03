@@ -47,7 +47,7 @@ function buildSchema(categories, mode) {
 
     return (
         <Schema>
-            <Field name="tiebreaker" label="How many Trump mentions?" required={true} validation={{"type": "number"}} />
+            <Field name="tiebreaker" label="How many Weinstein mentions?" required={true} validation={{"type": "number"}} />
             {categoryChoosers}
         </Schema>
     );
@@ -166,8 +166,8 @@ class PredictionsForm extends Component {
 
         const tiebreakerText = (
             <div style={{ width: "350px"}}>
-                How many time's will the name Trump be mentioned from the stage?
-                Must say Trump. Closest without going over wins.
+                How many times will the Harvey Weinstein be mentioned from the stage?
+                Must say his name. Closest without going over wins.
             </div>
         );
 
