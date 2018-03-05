@@ -58,6 +58,7 @@ class PredictionsForm extends Component {
     }
 
     componentWillMount() {
+        console.log("remain", secondsRemaining());
         let editMode;
         if (secondsRemaining() >= -300) {
             editMode = FormEditStates.ALWAYS;
