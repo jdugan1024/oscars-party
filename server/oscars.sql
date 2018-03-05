@@ -83,8 +83,7 @@ comment on column oscars.winner.nominee_id is 'Nominee that won. ';
 
 create table oscars.current_category (
        id serial primary key,
-       category_id integer not null references oscars.category(id) on delete cascade,
-       unique(category_id)
+       category_id integer not null references oscars.category(id) on delete cascade
 );
 
 comment on table oscars.current_category is 'Current category during the show.';
@@ -320,6 +319,44 @@ CREATE TRIGGER winner_notify_update AFTER UPDATE ON oscars.winner
 DROP TRIGGER IF EXISTS winner_notify_delete ON oscars.winner;
 CREATE TRIGGER winner_notify_delete AFTER DELETE ON oscars.winner
   FOR EACH STATEMENT EXECUTE PROCEDURE oscars.winner_notify_trigger();
+
+
+CREATE OR REPLACE FUNCTION oscars.current_category_notify() RETURNS void AS $$
+DECLARE
+  json_text text;
+BEGIN
+  select array_to_json(array_agg(row_to_json(t))) FROM (
+    select oscars.category.name as "category", oscars.nominee.name, count(*)
+      from oscars.prediction
+      join oscars.nominee on (oscars.nominee.id = oscars.prediction.nominee_id)
+      join oscars.category on (oscars.category.id = oscars.prediction.category_id)
+     where oscars.prediction.category_id = (
+        select category_id from oscars.current_category order by id desc limit 1
+      )
+     group by oscars.nominee.name, oscars.category.name order by name
+  ) AS t INTO json_text;
+-- raise notice 'json (%)', json_text;
+
+  perform pg_notify('category', json_text::text);
+END;
+$$ LANGUAGE plpgsql strict;
+
+CREATE OR REPLACE FUNCTION oscars.current_category_notify_trigger() RETURNS trigger AS $$
+BEGIN
+  perform oscars.current_category_notify();
+RETURN NEW;
+END;
+$$ LANGUAGE plpgsql strict;
+
+DROP TRIGGER IF EXISTS current_category_notify_insert ON oscars.current_category;
+CREATE TRIGGER current_category_notify_insert AFTER INSERT ON oscars.current_category
+  FOR EACH STATEMENT EXECUTE PROCEDURE oscars.current_category_notify_trigger();
+DROP TRIGGER IF EXISTS current_category_notify_update ON oscars.current_category;
+CREATE TRIGGER current_category_notify_update AFTER UPDATE ON oscars.current_category
+  FOR EACH STATEMENT EXECUTE PROCEDURE oscars.current_category_notify_trigger();
+DROP TRIGGER IF EXISTS current_category_notify_delete ON oscars.current_category;
+CREATE TRIGGER current_category_notify_delete AFTER DELETE ON oscars.current_category
+  FOR EACH STATEMENT EXECUTE PROCEDURE oscars.current_category_notify_trigger();
 
 
 -- Query to get the current category info.

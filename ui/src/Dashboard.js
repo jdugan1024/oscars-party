@@ -67,7 +67,7 @@ class LeaderBoard extends Component {
 
         return (
             <div className="row">
-                <div className="col-md-4">
+                <div className="col-sm-9">
                     <h4>Leaderboard</h4>
                     <table className="table table-striped table-condensed">
                         <thead>
@@ -85,6 +85,46 @@ class LeaderBoard extends Component {
         );
     }
 }
+
+class CurrentCategory extends Component {
+    render() {
+        const sortedCategory = _.sortBy(this.props.category, (item) => item.count)
+                                   .reverse();
+        const rows = _.map(sortedCategory, (item) => {
+            const name = item.name;
+            const count = item.count ? item.count : 0;
+            const key = "" + name + "--" + item.id;
+            return (
+                <tr key={key}>
+                    <td>{name}</td>
+                    <td>{count}</td>
+                </tr>
+            )
+        });
+
+        const currentCategory = this.props.category ? this.props.category[0].category : "Not Started Yet";
+
+        return (
+            <div className="row">
+                <div className="col-sm-9">
+                    <h4>{currentCategory}</h4>
+                    <table className="table table-striped table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Votes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {rows}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        );
+    }
+}
+
 
 class Dashboard extends Component {
     constructor(props, context) {
@@ -104,6 +144,10 @@ class Dashboard extends Component {
         this.socket.on("leaderboard", (msg) => {
             console.log("leaderboard update", msg);
             this.setState({ leaderboard: JSON.parse(msg) })
+        });
+        this.socket.on("category", (msg) => {
+            console.log("category update", msg);
+            this.setState({ category: JSON.parse(msg) })
         });
     }
 
@@ -161,8 +205,9 @@ class Dashboard extends Component {
 
     renderDashboard() {
         return (
-            <div>
-                <LeaderBoard leaderboard={this.state.leaderboard} />
+            <div className="row">
+                    <CurrentCategory category={this.state.category} />
+                    <LeaderBoard leaderboard={this.state.leaderboard} />
             </div>
         )
     }

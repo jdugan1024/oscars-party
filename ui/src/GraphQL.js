@@ -74,6 +74,16 @@ mutation CreateWinner($winnerInput: CreateWinnerInput!) {
 }
 `;
 
+export const SetCurrentCategoryMutation = gql`
+    mutation CreateCurrentCategory($categoryInput: CreateCurrentCategoryInput!){
+        createCurrentCategory(input: $categoryInput) {
+            clientMutationId
+            __typename
+        }
+    }
+`;
+
+
 export const RegisterPersonMutation = gql`
 mutation RegisterPerson($personInput: RegisterPersonInput!) {
     registerPerson(input: $personInput) {

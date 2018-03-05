@@ -23,6 +23,7 @@ const options = {
 // globals for socketio
 let users = 0;
 let leaderboard = null
+let category = null
 
 const buildDir = path.join(__dirname, '/../../ui/build');
 
@@ -39,12 +40,22 @@ pg.connect(pgConfig, function(err, client) {
     }
 
     client.on('notification', function(msg) {
-        leaderboard = msg.payload;
-        console.log("leaderboard:",  msg);
-        io.emit("leaderboard", leaderboard);
+        console.log("NOTIFY", msg);
+        if(msg.channel === "leaderboard") {
+            leaderboard = msg.payload;
+            console.log("leaderboard:",  msg);
+            io.emit("leaderboard", leaderboard);
+        } else if (msg.channel === "category") {
+            category = msg.payload;
+            console.log("category:", msg);
+            io.emit("category", category);
+        }
     });
 
     client.query("LISTEN leaderboard");
+    client.query("LISTEN category");
+    client.query("SELECT oscars.winner_notify();")
+    client.query("SELECT oscars.current_category_notify();")
 });
 
 
@@ -54,6 +65,7 @@ io.on("connection", (socket) => {
 
     io.emit("ping", "pong");
     io.emit("leaderboard", leaderboard);
+    io.emit("category", category);
 
     socket.on("disconnect", () => {
         users -= 1;

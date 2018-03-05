@@ -14,7 +14,7 @@ import {
 
 import {
     CategoryQuery,
-
+    SetCurrentCategoryMutation,
     SetWinnerMutation
 } from "./GraphQL";
 
@@ -62,6 +62,8 @@ class ConsoleForm extends Component {
 
         if (category && !winner) {
             console.log("update current category", category);
+            const categoryInput = {currentCategory: {categoryId: category}};
+            this.props.setCategory({ variables: { categoryInput }});
         }
 
         if (category && winner) {
@@ -72,7 +74,7 @@ class ConsoleForm extends Component {
     }
 
     render() {
-        console.log("Console", this.props);
+        console.log("Console", this.props, this.state.value);
         if(this.props.person.name !== "Jon") {
             return (<div>Access denied.</div>);
         }
@@ -98,7 +100,17 @@ class ConsoleForm extends Component {
                     value={this.state.value}
                     groupLayout={FormGroupLayout.COLUMN}
                     onChange={(fieldName, value) => {
-                            this.setState({ value })
+                            console.log("state change", fieldName, value, this.state);
+                            // if we change the category, reset the winner
+                            let newCategory = value.get("category");
+                            let oldCategory = this.state.value.get("category");
+                            if(newCategory !== oldCategory) {
+                                let newValue = value.delete("winner");
+                                console.log("VALN", newValue);
+                                this.setState({ value: newValue });
+                            } else {
+                                this.setState({ value });
+                            }
                         }}
                     onSubmit={this.handleSubmit}
                     onMissingCountChange={(fieldName, missing) =>
@@ -129,7 +141,8 @@ class ConsoleForm extends Component {
 }
 
 const ConsoleFormWithMutations = compose(
-    graphql(SetWinnerMutation, { name: "setWinner" })
+    graphql(SetWinnerMutation, { name: "setWinner" }),
+    graphql(SetCurrentCategoryMutation, { name: "setCategory" })
 )(ConsoleForm);
 
 class Console extends Component {
